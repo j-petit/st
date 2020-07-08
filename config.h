@@ -108,26 +108,48 @@ char *termname = "st-256color";
 unsigned int tabspaces = 8;
 
 /* bg opacity */
-float alpha = 0.8;
+float alpha = 1;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
-	"#282828", /* hard contrast: #1d2021 / soft contrast: #32302f */
-	"#cc241d",
-	"#98971a",
-	"#d79921",
-	"#458588",
-	"#b16286",
-	"#689d6a",
-	"#a89984",
-	"#928374",
-	"#fb4934",
-	"#b8bb26",
-	"#fabd2f",
-	"#83a598",
-	"#d3869b",
-	"#8ec07c",
-	"#ebdbb2",
+    "#073642",  /*  0: black    */
+    "#dc322f",  /*  1: red      */
+    "#859900",  /*  2: green    */
+    "#b58900",  /*  3: yellow   */
+    "#268bd2",  /*  4: blue     */
+    "#d33682",  /*  5: magenta  */
+    "#2aa198",  /*  6: cyan     */
+    "#eee8d5",  /*  7: white    */
+    "#002b36",  /*  8: brblack  */
+    "#cb4b16",  /*  9: brred    */
+    "#586e75",  /* 10: brgreen  */
+    "#657b83",  /* 11: bryellow */
+    "#839496",  /* 12: brblue   */
+    "#6c71c4",  /* 13: brmagenta*/
+    "#93a1a1",  /* 14: brcyan   */
+    "#fdf6e3",  /* 15: brwhite  */
+};
+
+/* Terminal colors for alternate (light) palette */
+static const char *altcolorname[] = {
+   /* solarized light */
+    "#eee8d5",  /*  0: black    */
+    "#dc322f",  /*  1: red      */
+    "#859900",  /*  2: green    */
+    "#b58900",  /*  3: yellow   */
+    "#268bd2",  /*  4: blue     */
+    "#d33682",  /*  5: magenta  */
+    "#2aa198",  /*  6: cyan     */
+    "#073642",  /*  7: white    */
+    "#fdf6e3",  /*  8: brblack  */
+    "#cb4b16",  /*  9: brred    */
+    "#93a1a1",  /* 10: brgreen  */
+    "#839496",  /* 11: bryellow */
+    "#657b83",  /* 12: brblue   */
+    "#6c71c4",  /* 13: brmagenta*/
+    "#586e75",  /* 14: brcyan   */
+    "#002b36",  /* 15: brwhite  */
+
 	[255] = 0,
 	/* more colors can be added after 255 to use with DefaultXX */
 	"#add8e6", /* 256 -> cursor */
@@ -137,14 +159,15 @@ static const char *colorname[] = {
 };
 
 
+
 /*
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-unsigned int defaultfg = 259;
-unsigned int defaultbg = 258;
-unsigned int defaultcs = 256;
-unsigned int defaultrcs = 257;
+unsigned int defaultfg = 12;
+unsigned int defaultbg = 8;
+unsigned int defaultcs = 14;
+unsigned int defaultrcs = 15;
 
 /*
  * Default shape of cursor
@@ -181,25 +204,6 @@ static unsigned int defaultattr = 11;
 ResourcePref resources[] = {
 		{ "font",         STRING,  &font },
 		{ "fontalt0",     STRING,  &font2[0] },
-		{ "color0",       STRING,  &colorname[0] },
-		{ "color1",       STRING,  &colorname[1] },
-		{ "color2",       STRING,  &colorname[2] },
-		{ "color3",       STRING,  &colorname[3] },
-		{ "color4",       STRING,  &colorname[4] },
-		{ "color5",       STRING,  &colorname[5] },
-		{ "color6",       STRING,  &colorname[6] },
-		{ "color7",       STRING,  &colorname[7] },
-		{ "color8",       STRING,  &colorname[8] },
-		{ "color9",       STRING,  &colorname[9] },
-		{ "color10",      STRING,  &colorname[10] },
-		{ "color11",      STRING,  &colorname[11] },
-		{ "color12",      STRING,  &colorname[12] },
-		{ "color13",      STRING,  &colorname[13] },
-		{ "color14",      STRING,  &colorname[14] },
-		{ "color15",      STRING,  &colorname[15] },
-		{ "background",   STRING,  &colorname[258] },
-		{ "foreground",   STRING,  &colorname[259] },
-		{ "cursorColor",  STRING,  &colorname[256] },
 		{ "termname",     STRING,  &termname },
 		{ "shell",        STRING,  &shell },
 		{ "blinktimeout", INTEGER, &blinktimeout },
@@ -223,8 +227,8 @@ static MouseShortcut mshortcuts[] = {
 };
 
 /* Internal keyboard shortcuts. */
-#define MODKEY Mod1Mask
-#define TERMMOD (Mod1Mask|ShiftMask)
+#define MODKEY Mod4Mask
+#define TERMMOD (Mod4Mask|ShiftMask)
 
 MouseKey mkeys[] = {
 	/* button               mask            function        argument */
@@ -278,6 +282,8 @@ static Shortcut shortcuts[] = {
 	{ MODKEY,               XK_l,           externalpipe,   {.v = openurlcmd } },
 	{ MODKEY,               XK_y,           externalpipe,   {.v = copyurlcmd } },
 	{ MODKEY,               XK_o,           externalpipe,   {.v = copyoutput } },
+    { XK_ANY_MOD,           XK_F6,          swapcolors,     {.i =  0} },
+
 };
 
 /*
